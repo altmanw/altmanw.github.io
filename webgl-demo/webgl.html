@@ -1,0 +1,285 @@
+<!--
+//////////////////////////////////////////////////////
+//
+//    Lab 5
+//    
+//    Code authored by:
+//    Will Altman (altman.120@osu.edu)
+//
+//    Boiler plate code provided from the example GitHub which is authored by:
+//    Han-Wei Shen (shen.94@osu.edu)  
+//
+//
+//////////////////////////////////////////////////////
+-->
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <title>WebGL Engine</title>
+  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+  <style>
+    body {
+      background-color: #121212;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      align-items: center;
+      height: 100vh;
+    }
+
+    p {
+      color: #557A95;
+      text-align: left;
+    }
+  </style>
+  <script>
+    if (!sessionStorage.getItem('refreshed')) {
+      sessionStorage.setItem('refreshed', 'true');
+
+      setTimeout(function () {
+        location.reload();
+      }, 1000);
+    }
+  </script>
+  <!--  ************** Fragment Shader ************* -->
+  <script id="shader-fs" type="x-shader/x-fragment">
+  precision mediump float;
+
+  uniform mat4 uMMatrix; 
+  uniform mat4 uVMatrix;
+  uniform mat4 uPMatrix;
+  uniform mat4 uNMatrix; 
+  uniform mat4 uV2WMatrix;  // eye to world 
+
+
+  uniform vec4 light_pos; 
+  uniform vec4 ambient_coef;
+  uniform vec4 diffuse_coef;
+  uniform vec4 specular_coef;
+  uniform float mat_shininess; 
+
+  uniform vec4 light_ambient; 
+  uniform vec4 light_diffuse; 
+  uniform vec4 light_specular;
+
+  varying vec4 eye_pos; 
+  varying vec3 v_normal;
+  varying vec4 vColor; 
+
+  uniform sampler2D tex;
+  uniform samplerCube cubeMap; 
+  varying vec4 vTextureCoord;
+
+
+  uniform int use_texture; 
+
+
+
+  void main(void) {
+     vec4 light_pos_in_eye = light_pos;   
+
+     vec3 light_vector = normalize(vec3(light_pos_in_eye - eye_pos)); 
+
+     vec3 eye_vector = normalize(-vec3(eye_pos));
+     
+     vec4 ambient = ambient_coef * light_ambient; 
+     float ndotl = max(dot(v_normal, light_vector), 0.0); 
+
+     vec4 diffuse = diffuse_coef * light_diffuse* ndotl;
+
+     vec3 R = normalize(2.0 * ndotl *v_normal-eye_vector);
+     float rdotv = max(dot(R, eye_vector), 0.0);
+
+     vec4 specular;  
+     if (ndotl>0.0) 
+     specular = specular_coef* light_specular*pow(rdotv, mat_shininess); 
+     else
+     specular = vec4(0,0,0,1);  
+
+     // vec4 texColor = texture2D(tex, tc);
+     // vec4 texColor = texture2DProj(tex, vTextureCoord);
+
+    vec4 texcolor; 
+    vec3 view_vector, ref; 
+    vec4 env_color = vec4(1,0,0,1);
+
+      //change back this to 1 and the next one to 2
+     if ( use_texture == 1 ) {
+     vec2 tc = vec2(vTextureCoord.s / vTextureCoord.w, vTextureCoord.t / vTextureCoord.w);
+      texcolor = texture2D(tex, vTextureCoord.st); 
+      gl_FragColor = texcolor * (ambient + diffuse + specular); 
+    //	gl_FragColor = vColor*texcolor; 
+      }
+      else if (use_texture == 2){
+        view_vector = normalize(vec3(vec4(0,0,0,1)-eye_pos));
+        ref = normalize(reflect(-view_vector, v_normal));  // in eye space
+        ref = vec3(uV2WMatrix*vec4(ref,0));   // convert to world space
+        env_color = textureCube(cubeMap, ref);
+        
+        gl_FragColor = env_color;// * (ambient + diffuse + specular);
+        //gl_FragColor = vec4(ref, 1.0); 
+      }
+      else if ( use_texture == 3 ) {
+        vec2 tc = vec2(vTextureCoord.s / vTextureCoord.w, vTextureCoord.t / vTextureCoord.w);
+         texcolor = texture2D(tex, vTextureCoord.st); 
+         gl_FragColor = texcolor; 
+       //	gl_FragColor = vColor*texcolor; 
+         } 
+
+      
+      else {
+        gl_FragColor = vColor * (ambient + diffuse + specular);
+      }
+     // gl_FragColor = texColor;
+     // gl_FragColor = vec4(v_normal, 1.0);
+     // gl_FragColor = vColor;
+     // gl_FragColor = vec4(vTextureCoord); // , 0.0, 1.0);
+
+ }
+</script>
+  <!--  ************** Vertex Shader ************* -->
+  <script id="shader-vs" type="x-shader/x-vertex">
+
+  precision mediump float;
+  attribute vec3 aVertexPosition;
+  attribute vec3 aVertexNormal;
+  attribute vec3 aVertexColor;
+  attribute vec2 aVertexTextureCoord;
+
+
+   uniform mat4 uMMatrix; 
+   uniform mat4 uVMatrix;
+   uniform mat4 uPMatrix;
+   uniform mat4 uNMatrix;
+   uniform mat4 uV2WMatrix;  // eye to world 
+
+
+   uniform vec4 light_pos; 
+   uniform vec4 ambient_coef;
+   uniform vec4 diffuse_coef;
+   uniform vec4 specular_coef;
+   uniform float mat_shininess; 
+
+   uniform vec4 light_ambient; 
+   uniform vec4 light_diffuse; 
+   uniform vec4 light_specular;
+
+   varying vec4 eye_pos;  //vertex position in eye space 
+   varying vec3 v_normal;  // vertex normal
+   varying vec4 vColor; 
+
+   varying vec4 vTextureCoord;
+
+
+
+   void main(void) {
+    // transform the vertex position to eye space 
+    eye_pos = uVMatrix*uMMatrix*vec4(aVertexPosition, 1.0);
+
+  v_normal =normalize(vec3(uNMatrix*vec4(aVertexNormal,0.0)));
+  gl_Position = uPMatrix*uVMatrix*uMMatrix*vec4(aVertexPosition, 1.0);
+
+//      vColor = ambient+diffuse+specular;
+//      vColor = vec4(eye_vector, 1.0); 
+      vColor = vec4(aVertexColor,1.0);
+      vTextureCoord = vec4(aVertexTextureCoord.st, 0.0, 1.0);
+
+//      vColor = vec4(aVertexNormal, 1.0);
+ // vColor = vec4(v_normal, 1.0);
+
+    
+
+  // float w = gl_Position.w;
+  // vTextureCoord = vec4(aVertexTextureCoord.s / w, aVertexTextureCoord.t / w, 1.0, 1.0 / w);
+}
+
+
+
+    // by pass the vertex coordinates; all need to be in [-1,-1] to be vislble 
+</script>
+
+  <script type="text/javascript" src="shape_vbos.js"></script>
+  <script type="text/javascript" src="matrix_ops.js"></script>
+  <script type="text/javascript" src="glMatrix-0.9.5.min.js"></script>
+  <script type="text/javascript" src="shaders_setup.js"></script>
+  <script type="text/javascript" src="altmanlab5.js"></script>
+  <script type="text/javascript" src="shape_container.js"></script>
+  <script type="text/javascript" src="cylinder.js"></script>
+  <script type="text/javascript" src="sphere.js"></script>
+  <script type="text/javascript" src="scene_builder.js"></script>
+
+
+
+
+
+
+</head>
+
+
+<body onload="webGLStart();">
+
+  <canvas id="code00-canvas" style="border: none;" width="700" height="700"></canvas>
+
+  <br />
+
+  <p>
+
+
+
+    <b>==IMPORTANT==</b>
+
+    <br />
+    - <b>REFRESH THE PAGE</b> if reflective objects are rendered in all black.
+
+    <br />
+
+    - There is a reflective sphere behind the camera. Use the 'y' key to rotate around in order
+    to see it.
+
+    <br />
+
+    <br />
+
+    <b>ABOUT</b><br />
+
+    - This canvas is a real-time rendering using WebGL.<br />
+    - Primitives are rendered algorithmically<br />
+    - The 3D Raygun model is rendered <br />
+
+
+    <br /><br />
+
+    <b>CONTROLS:</b><br />
+
+
+    Pitch the camera: <b>P/p</b><br />
+    Yaw the camera: <b>Y/y</b><br />
+    Rotate the camera: <b>R/r</b><br />
+    Move the character: <b>w a s d</b><br />
+    Cycle rendering mode: <b>c</b><br />
+    Rotate objects: <b>`</b><br />
+
+
+    <br />
+    <button onclick="history.back()"
+      style="padding: 10px 20px; background-color: #00BFFF; color: rgb(0, 0, 0); border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
+      Go Back
+    </button>
+
+  </p>
+
+
+
+
+
+
+</body>
+
+
+</html>
