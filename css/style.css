@@ -1942,6 +1942,9 @@ input#nav-toggle:checked ~ #nav-menu {
   white-space: nowrap;
   border-width: 0;
 }
+.collapse {
+  visibility: collapse;
+}
 .fixed {
   position: fixed;
 }
