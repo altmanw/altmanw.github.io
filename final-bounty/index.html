@@ -540,10 +540,6 @@
                 
                 
                 
-              
-                
-                
-                
                inline-flex items-center">
               Projects
               <svg class="h-4 w-4 fill-current" viewBox="0 0 20 20">
@@ -584,17 +580,6 @@
                     
                     href="/webgl">
                     WebGL Engine
-                  </a>
-                </li>
-              
-                
-                
-                <li class="nav-dropdown-item">
-                  <a
-                    class="nav-dropdown-link "
-                    
-                    href="/mario-game">
-                    Italian Plumber World
                   </a>
                 </li>
               
@@ -846,7 +831,7 @@
 
 <div style="text-align: center;">
     <p>
-<p><b>Final Bounty</b> is a sci-fi themed rougelike bullet hell game featuring procedurally generated levels, permadeath, and an exciting lineup of foes to exterminate. The player is a bounty hunter on the cusp of retirement who sets out on one last mission to secure their legacy. Traveling from planet to planet, they must vanquish enemies and collect supplies while they get ever closer to achieving their goal. Between planets, the player can purchase upgrades at the shopkeeper&rsquo;s space station and choose their next battle. After conquering three solar systems, the only thing that stands between the player and collecting their final bounty is an exhilarating boss fight.</p>
+<p><b>Final Bounty</b> is a sci-fi themed roguelike bullet hell game featuring procedurally generated levels, permadeath, and an exciting lineup of foes to exterminate. The player is a bounty hunter on the cusp of retirement who sets out on one last mission to secure their legacy. Traveling from planet to planet, they must vanquish enemies and collect supplies while they get ever closer to achieving their goal. Between planets, the player can purchase upgrades at the shopkeeper&rsquo;s space station and choose their next battle. After conquering three solar systems, the only thing that stands between the player and collecting their final bounty is an exhilarating boss fight.</p>
 <p>The game was developed using Unity by a team of six programmers and one musician. My primary contributions included designing, developing, and implementing the behavior of multiple AI agents and seamlessly integrating them into the game to provide the player with dynamic and engaging battles.</p>
 </div>
 <hr>
@@ -901,7 +886,7 @@
 <section id="AI-Agents">
 <h3 id="ai-agents">AI Agents</h3>
 <p>The AI system in <b>Final Bounty</b> is built around a modular architecture which utilizes a virtual <strong>Enemy</strong> class as the base for all agents. Each unique enemy class inherits the class&rsquo;s logic and overrides key attributes such as weapon type, kill value, health, and damage enabling easy customization and scalability. The weapon type is based on a shared abstract <strong>GunType</strong> class, which is also utilized by the player. This ensures weapon mechanics are consistent between the player and AI while also streamlines weapon implementation.</p>
-<p>All enemy types utilize a unified, custom A* pathfinding implementation that allows for navigation across the spherical surfaces of the planets. When an enemy spots the player, however, its own unique reaction takes over, creating varied and engaging gameplay experience.</p>
+<p>All enemy types utilize a unified, custom A* pathfinding implementation that allows for navigation across the spherical surfaces of the planets. When an enemy spots the player, however, its own unique reaction takes over, creating varied and engaging gameplay experience. AI agents also utilize finite state machines which are optimized for efficiency, allowing for hundreds of agents to be active at once.</p>
 <h5 id="drone">Drone</h5>
 <p>Drones are the basic enemy type. A single drone is no problem, but when attacking the player in numbers they creates an impressive volley of shots for the player to dodge.</p>
 
