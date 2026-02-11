@@ -4,7 +4,7 @@
   class=""
   lang="en-us"
   itemtype="http://schema.org/WebPage">
-  <head>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     
     <meta charset="utf-8" />
 
@@ -72,7 +72,6 @@
 
 
 
-  <base href="https://willaltman.tech/modern-medicine/procedural-generation/" />
 
 
 
@@ -154,7 +153,7 @@
 <meta property="og:title" content="MM Procedural Generation" />
 <meta property="og:description" content="MM Procedural Generation" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://willaltman.tech/modern-medicine/procedural-generation/" />
+<meta property="og:url" content="http://localhost:1313/modern-medicine/procedural-generation/" />
 
 
 <meta name="twitter:title" content="MM Procedural Generation" />
@@ -185,7 +184,7 @@
 
 
 <script>
-  let indexURL = "https://willaltman.tech/searchindex.json";
+  let indexURL = "http://localhost:1313/searchindex.json";
   let includeSectionsInSearch = ["blog"];
   let search_no_results = "No results for";
   let search_initial_message = "Type something to search..";
@@ -295,8 +294,8 @@
 
 
 <link
-  href="/css/style.min.deb1109dbad644e37eab5cd348cedfc91b12e870793cea9a036f32d57ccaf152.css"
-  integrity="sha256-3rEQnbrWRON+q1zTSM7fyRsS6HB5POqaA28y1XzK8VI="
+  href="/css/style.css"
+  integrity=""
   rel="stylesheet" />
 
 
@@ -304,8 +303,8 @@
   defer
   async
   rel="stylesheet"
-  href="/css/style-lazy.min.1891ab9d1988b9b19756de1bbea47aecb95c7b5ab195f6fe52244b6eca5d8154.css"
-  integrity="sha256-GJGrnRmIubGXVt4bvqR67Llce1qxlfb+UiRLbspdgVQ="
+  href="/css/style-lazy.css"
+  integrity=""
   media="print"
   onload="this.media='all'; this.onload=null;" />
 
@@ -319,7 +318,18 @@
 
 
 
+
+
       
+      <div
+  class="fixed left-0 top-0 z-50 flex w-[30px] items-center justify-center bg-gray-200 py-[2.5px] text-[12px] uppercase text-black sm:bg-red-200 md:bg-yellow-200 lg:bg-green-200 xl:bg-blue-200 2xl:bg-pink-200">
+  <span class="block sm:hidden">all</span>
+  <span class="hidden sm:block md:hidden">sm</span>
+  <span class="hidden md:block lg:hidden">md</span>
+  <span class="hidden lg:block xl:hidden">lg</span>
+  <span class="hidden xl:block 2xl:hidden">xl</span>
+  <span class="hidden 2xl:block">2xl</span>
+</div>
 
     
 
@@ -474,20 +484,6 @@
               
               href="/"
               >Home</a
-            >
-          </li>
-        
-      
-        
-        
-        
-        
-          <li class="nav-item">
-            <a
-              class="nav-link "
-              
-              href="/about"
-              >About</a
             >
           </li>
         
@@ -719,7 +715,8 @@
           <div class="content">
             <h3 id="procedural-generation">Procedural Generation</h3>
 <h6 id="1-representing-the-world">1. Representing the world</h6>
-<p>One thing that hasn&rsquo;t changed much since its initial prototype is how the world is abstractly represented in code. The level is stored in an n x m array of nodes, with each node containing information about what exists in that location (e.g. is this a room, hallway, doorway, what biome is this, etc&hellip;). Nodes also store a reference to their neighbors, creating a graph. Being able to look up nodes in both an array or explore nodes as a graph provides important flexibility in how the game interacts with the world since many corners of the code base use this core system.</p>
+<p>The game world is represented as an n × m array of nodes, where each node encodes the type of space it occupies: such as a room, hallway, doorway, and its associated biome. Each node also maintains references to its neighbors, forming a graph that allows traversal in multiple directions.</p>
+<p>This dual structure, both array-based for direct lookup and graph-based for navigation, provides flexibility across the codebase. Many systems, from AI navigation to procedural generation and player interactions, rely on this core representation to query, manipulate, and explore the world efficiently.</p>
 
 
 
@@ -835,15 +832,9 @@
 
 
 
-  <script>
-    window.addEventListener("load", (e) => {
-      const lightbox = GLightbox();
-    });
-  </script>
-
 
 <h6 id="2-the-hallways-must-be-interesting-to-walk-through">2. The hallways must be interesting to walk through</h6>
-<p>The first prototype for hallway generation was simple: place the rooms randomly on a grid, then use A* to connect each doorway node to every other doorway node, prioritizing previously placed hallways. Then, randomly select several hallway nodes and expand them to create unique biomes.</p>
+<p>The initial prototype for hallway generation was straightforward: rooms were placed randomly on a grid, and A* pathfinding was used to connect each doorway to every other doorway, prioritizing previously generated hallways.</p>
 
 
 
@@ -960,8 +951,9 @@
 
 
 
-<p>While this prototype did achieve our goal procedural generation goals, it had one major issue revealed by early playtests: walking for minutes on end through a straight hallway isn&rsquo;t fun. So it was back to the drawing board. The level generation system had to be snakey and interesting while also not being overly frustrating or confusing to navigate like a maze would be.</p>
-<p>The first solution was to utilize node weights in the A* algorithm for more than just prioritizing previously generated hallways. What if every node had a random weight value? This was better, but the sheer randomness was obvious when playing. The hallways had to seem at least somewhat realistic and a straight maze was not an option I wanted to entertain. Stumped, I looked towards other games that used procedural generation for inspiration and eventually looked towards Minecraft. Minecraft utilizes perlin noise to create &ldquo;natural&rdquo; looking curves and features in its terrain generation. What if I generated the node weights for the hallways using perlin noise? I had just implemented a technique I would later learn is called Perlin Worm Tunneling.</p>
+<p>While this approach achieved basic procedural connectivity, playtesting revealed a critical issue: long, straight hallways quickly became monotonous. The challenge was to create hallways that felt dynamic and natural while avoiding the frustration of a confusing maze.</p>
+<p>To improve realism, randomized node weights were introduced into the A* algorithm. Each node was assigned a weight to influence path selection. Initially, this randomized weight caused the resulting hallways felt arbitrary and unnatural. To create more organic layouts, I experimented with perlin noise, inspired by Minecraft’s terrain generation, to bias node weights and produce smooth, flowing hallways.</p>
+<p>Through this process, I unknowingly implemented what would later be recognized as Perlin Worm Tunneling, a technique that generates naturally winding paths. This approach allowed hallways to feel deliberate, varied, and engaging, supporting both exploration and gameplay pacing.</p>
 
 
 
@@ -1079,7 +1071,8 @@
 
 
 <h6 id="3-biomes">3. Biomes</h6>
-<p>My next goal was to implement a more interesting biome system with the goal of having fewer, larger biomes. To do this, I simply recycled the idea of using perlin noise. Once the initial map and hallways are generated, I create a new perlin noise map for the nodes. Then, I select a node at random to be an anchor point for a random biome. I generate another set of values, each +/- n from the anchor point&rsquo;s noise value. Then, manifest destiny style, I add the surrounding nodes to this anchor point&rsquo;s biome grouping provided that the surrounding nodes have not been added to a different biome already and are within the +/- n range generated earlier. This process is repeated DFS style with all of the captured nodes until there are no more neighbors within the range. Then, a different random (unclaimed) node is chosen to be a new anchor and the process repeats. This continues until a predetermined percentage of all the nodes are captured, with the remaining nodes being classified as the default biome.</p>
+<p>To make the hallways more visually interesting, the procedural generation system includes a biome system designed around fewer, larger regions. This system leverages Perlin noise to produce natural transitions between biomes across the hallways.</p>
+<p>Once the initial map and hallways are generated, a new Perlin noise map is created for all nodes. Random nodes and nodes neighboring doorways of important rooms are selected as biome anchors, and neighboring nodes are recursively grouped into the same biome if their noise values fall within a defined range. This depth-first search process continues until the anchor has expanded as far as possible, after which a new anchor is selected from unclaimed nodes. The process repeats until the majority of nodes are assigned a biome, with any remaining nodes defaulting to a baseline biome.</p>
 
 
 
@@ -1196,7 +1189,7 @@
 
 
 
-<p>To add additional flair to the hallways, &ldquo;straightaway&rdquo; portions are detected and generate with unique designs.</p>
+<p>To add further variety, straightaway segments are detected and populated with unique designs that span multiple nodes. These provide visual relief in longer hallways and help hallways feel deliberate rather than purely procedural.</p>
 
 
 
@@ -1429,7 +1422,7 @@
 
 
 
-<p>Some biomes may have unique features that require their assets to be larger than the size of one node. In the medfloor biome, the ceiling is curved like a train tunnel. For tight angles, additional assets beyond the bounds of a single node are needed. All walls are generated with these additional assets, and those which exist outside of a hallway node are deleted at runtime to prevent clipping issues.</p>
+<p>Some biomes include assets that extend beyond the bounds of a single node. For example, in the medfloor biome, ceilings are curved like a train tunnel, requiring larger assets to maintain visual consistency across corners and junctions. During runtime, any portions of these assets that extend outside the node boundaries are removed to prevent clipping.</p>
 
 
 
@@ -1662,9 +1655,11 @@
 
 
 
-<h6 id="4-rooms">4. Rooms</h6>
-<p>At runtime, several core rooms are selected to be placed into the world randomly, then several &ldquo;shortcut&rdquo; and &ldquo;loot&rdquo; rooms are randomly selected and placed around the world. Most rooms in the game feature at least some degree of procedural generation. Take the medfloor for example. This room has the player duck into rooms in order to dodge a wandering radiation monster. To make this interesting throughout multiple playthroughs, the layout of the room changes.</p>
-<p>The core layout of the room consists of an L shape. On several sides of the L shape, one of 4 different layouts can generate. Within these layouts, random room designs generate. Notice the long L hallway is the same in all of the below pictures, but the surrounding designs change.</p>
+<h6 id="4-rooms-and-hallways">4. Rooms and Hallways</h6>
+<p>MODERN MEDICINE uses a hierarchical procedural generation system, meaning that at runtime, objects can spawn other objects, which in turn can spawn additional objects, creating layers of variation and complexity. This hierarchy allows the world to feel dynamic and responsive while maintaining a structured layout.</p>
+<p>Rooms are the dynamic, freeform layer of the system. At runtime, a set of core rooms is randomly placed, followed by optional shortcut and loot rooms. Within each room, procedural generation determines which elements appear, and these elements can themselves spawn additional variations, props, obstacles, or interactable objects, creating a multi-layered, hierarchical layout. Room dimensions are also dynamic, adjusting to accommodate whatever spawns inside. For example, the medfloor room challenges players to duck into side rooms to avoid a wandering radiation monster. While the central L-shaped hallway stays consistent, surrounding areas are procedurally generated from multiple variations, ensuring each playthrough feels fresh. This hierarchical system is supported by internal tooling, which is explored further in the Tools section.</p>
+<p>Hallways follow a templated node system, forming a more structured layer of the hierarchy. Each hallway node is modular and can be adjusted at runtime based on its neighbors in the graph. Walls can become doorways, segments can be removed or replaced, and biomes can be applied across multiple nodes to maintain cohesion. Hallway nodes can also spawn secondary elements like props or effects, which in turn may spawn smaller details, continuing the hierarchical pattern.</p>
+<p>By combining templated hallway nodes with dynamic, hierarchical room generation, the system creates a world that is both navigable and richly varied. Hallways provide clarity and continuity, while rooms introduce surprises and challenges, and the hierarchical spawning ensures the game feels alive and unpredictable.</p>
 
 
 
@@ -1958,8 +1953,8 @@
 
   
 
-<h6 id="4-navigation">4. Navigation</h6>
-<p>Later playtests leading up to the launch of the game revealed another issue: being lost in the hallways is frustrating. The player needed some sort of indication if they were getting closer to their target room. This prompted the development of direction panels placed randomly throughout the world. When activated, an arrow illuminates on the panel pointing towards the correct direction, and a line temporarily appears on the floor to aid with navigation.</p>
+<h6 id="5-navigation">5. Navigation</h6>
+<p>Playtesting revealed that players could become frustrated if they felt lost in the hallways. To address this, direction panels were introduced throughout the world. When activated, these panels illuminate an arrow pointing toward the target destination, and a temporary on-floor line appears to guide the player.</p>
 
 
 
@@ -2058,7 +2053,8 @@
 
 
 
-<p>There is more to displaying the correct arrow on the panel than it may seem. Direction panels have a chance of generating on any of the existing walls of a hallway node (north, east, south, west). First, the node the panel exists in is mathematically calculated, then the node object is retrieved for use based off its coordinates. To find the correct direction, the A* system used in world generation is recycled to pathfind from the panel&rsquo;s node to one of the destination room&rsquo;s doorways. This path is then sent to the client to display the on-floor line. On the server the direction of the path is calculated by finding both the unit vector between the source node&rsquo;s midpoint and the first node in the path&rsquo;s midpoint (for direction), as well as the unit vector between the source node&rsquo;s midpoint and the direction panel (the arrow will &ldquo;face&rdquo; a different direction depending on what wall it is on). Using these two vectors, the correct facing arrow can be selected and displayed as needed.</p>
+<p>Direction panels are integrated with the hierarchical procedural generation system. They can generate on any wall of a hallway node (north, east, south, or west). When a panel is placed, the system calculates its corresponding node, retrieves the node object, and uses the A* pathfinding system (originally developed for world AI navigation) to determine the optimal path from the panel’s location to the destination room’s doorway.</p>
+<p>This path data is sent to the client to display the on-floor guidance line. On the server, the arrow’s facing is calculated by comparing the unit vector from the panel to the first node in the path and the unit vector from the panel to the node’s midpoint. This ensures that the arrow points correctly relative to the wall it is mounted on, providing consistent and accurate navigation cues regardless of hallway orientation.</p>
 
 
 
@@ -2106,7 +2102,7 @@
 
 
 
-<a href="https://willaltman.tech/modern-medicine#Procedural-Generation" class="btn btn-primary "  rel="" >Back</a>
+<a href="http://localhost:1313/modern-medicine#Procedural-Generation" class="btn btn-primary "  rel="" >Back</a>
 
 
           </div>
@@ -2230,26 +2226,6 @@
       <div class="lg:col-6 mb-8 text-center lg:mb-0">
         <ul>
           
-            <li class="m-3 inline-block">
-              <a
-                
-                href="
-                  /about
-                "
-                >About</a
-              >
-            </li>
-          
-            <li class="m-3 inline-block">
-              <a
-                
-                href="
-                  /resume.pdf
-                "
-                >Résumé</a
-              >
-            </li>
-          
         </ul>
       </div>
       <div class="lg:col-3 mb-8 text-center lg:mb-0 lg:mt-0 lg:text-right">
@@ -2358,23 +2334,20 @@
 
 
 
-  
-  
-
 
 
 <script
   crossorigin="anonymous"
-  integrity="sha256-LO9JECYLqyMcpGlrtxZcpUn0I8AvhO6oIIibJZv4zbk="
-  src="/js/script.min.2cef4910260bab231ca4696bb7165ca549f423c02f84eea820889b259bf8cdb9.js"></script>
+  integrity=""
+  src="/js/script.js"></script>
 
 
 <script
   defer
   async
   crossorigin="anonymous"
-  integrity="sha256-w&#43;aS42D2&#43;B&#43;Jix&#43;joZ7pAua1vbu/pRK/IhoP55b8n3w="
-  src="/js/script-lazy.min.c3e692e360f6f81f898b1fa3a19ee902e6b5bdbbbfa512bf221a0fe796fc9f7c.js"></script>
+  integrity=""
+  src="/js/script-lazy.js"></script>
 
 
 

@@ -4,7 +4,7 @@
   class=""
   lang="en-us"
   itemtype="http://schema.org/WebPage">
-  <head>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     
     <meta charset="utf-8" />
 
@@ -72,7 +72,6 @@
 
 
 
-  <base href="https://willaltman.tech/final-bounty/" />
 
 
 
@@ -154,7 +153,7 @@
 <meta property="og:title" content="Final Bounty" />
 <meta property="og:description" content="Final Bounty" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://willaltman.tech/final-bounty/" />
+<meta property="og:url" content="http://localhost:1313/final-bounty/" />
 
 
 <meta name="twitter:title" content="Final Bounty" />
@@ -185,7 +184,7 @@
 
 
 <script>
-  let indexURL = "https://willaltman.tech/searchindex.json";
+  let indexURL = "http://localhost:1313/searchindex.json";
   let includeSectionsInSearch = ["blog"];
   let search_no_results = "No results for";
   let search_initial_message = "Type something to search..";
@@ -295,8 +294,8 @@
 
 
 <link
-  href="/css/style.min.deb1109dbad644e37eab5cd348cedfc91b12e870793cea9a036f32d57ccaf152.css"
-  integrity="sha256-3rEQnbrWRON+q1zTSM7fyRsS6HB5POqaA28y1XzK8VI="
+  href="/css/style.css"
+  integrity=""
   rel="stylesheet" />
 
 
@@ -304,8 +303,8 @@
   defer
   async
   rel="stylesheet"
-  href="/css/style-lazy.min.1891ab9d1988b9b19756de1bbea47aecb95c7b5ab195f6fe52244b6eca5d8154.css"
-  integrity="sha256-GJGrnRmIubGXVt4bvqR67Llce1qxlfb+UiRLbspdgVQ="
+  href="/css/style-lazy.css"
+  integrity=""
   media="print"
   onload="this.media='all'; this.onload=null;" />
 
@@ -319,7 +318,18 @@
 
 
 
+
+
       
+      <div
+  class="fixed left-0 top-0 z-50 flex w-[30px] items-center justify-center bg-gray-200 py-[2.5px] text-[12px] uppercase text-black sm:bg-red-200 md:bg-yellow-200 lg:bg-green-200 xl:bg-blue-200 2xl:bg-pink-200">
+  <span class="block sm:hidden">all</span>
+  <span class="hidden sm:block md:hidden">sm</span>
+  <span class="hidden md:block lg:hidden">md</span>
+  <span class="hidden lg:block xl:hidden">lg</span>
+  <span class="hidden xl:block 2xl:hidden">xl</span>
+  <span class="hidden 2xl:block">2xl</span>
+</div>
 
     
 
@@ -474,20 +484,6 @@
               
               href="/"
               >Home</a
-            >
-          </li>
-        
-      
-        
-        
-        
-        
-          <li class="nav-item">
-            <a
-              class="nav-link "
-              
-              href="/about"
-              >About</a
             >
           </li>
         
@@ -822,17 +818,11 @@
 
 
 
-  <script>
-    window.addEventListener("load", (e) => {
-      const lightbox = GLightbox();
-    });
-  </script>
-
 
 <div style="text-align: center;">
     <p>
-<p><b>Final Bounty</b> is a sci-fi themed roguelike bullet hell game featuring procedurally generated levels, permadeath, and an exciting lineup of foes to exterminate. The player is a bounty hunter on the cusp of retirement who sets out on one last mission to secure their legacy. Traveling from planet to planet, they must vanquish enemies and collect supplies while they get ever closer to achieving their goal. Between planets, the player can purchase upgrades at the shopkeeper&rsquo;s space station and choose their next battle. After conquering three solar systems, the only thing that stands between the player and collecting their final bounty is an exhilarating boss fight.</p>
-<p>The game was developed using Unity by a team of six programmers and one musician. My primary contributions included designing, developing, and implementing the behavior of multiple AI agents and seamlessly integrating them into the game to provide the player with dynamic and engaging battles.</p>
+<p><b>Final Bounty</b> is a sci-fi roguelike bullet hell built in Unity, featuring procedurally generated levels, permadeath, and large-scale AI-driven combat. Players control a bounty hunter traveling between planets, selecting encounters, upgrading their ship, and surviving increasingly difficult battles across multiple solar systems before a final boss confrontation.</p>
+<p>Developed by a team of six programmers and one musician, the project emphasizes scalable systems and systemic gameplay. My primary role centered on AI engineering, including the design and implementation of modular enemy architectures, data-driven spawning systems, and a custom A* pathfinding solution adapted for spherical planetary surfaces. I also focused on integrating AI behavior with shared systems such as weapons, gravity, and planet generation to ensure consistency, performance, and maintainability across gameplay systems.</p>
 </div>
 <hr>
 <h3 id="trailer">Trailer</h3>
@@ -1847,26 +1837,6 @@
       <div class="lg:col-6 mb-8 text-center lg:mb-0">
         <ul>
           
-            <li class="m-3 inline-block">
-              <a
-                
-                href="
-                  /about
-                "
-                >About</a
-              >
-            </li>
-          
-            <li class="m-3 inline-block">
-              <a
-                
-                href="
-                  /resume.pdf
-                "
-                >Résumé</a
-              >
-            </li>
-          
         </ul>
       </div>
       <div class="lg:col-3 mb-8 text-center lg:mb-0 lg:mt-0 lg:text-right">
@@ -1975,23 +1945,20 @@
 
 
 
-  
-  
-
 
 
 <script
   crossorigin="anonymous"
-  integrity="sha256-LO9JECYLqyMcpGlrtxZcpUn0I8AvhO6oIIibJZv4zbk="
-  src="/js/script.min.2cef4910260bab231ca4696bb7165ca549f423c02f84eea820889b259bf8cdb9.js"></script>
+  integrity=""
+  src="/js/script.js"></script>
 
 
 <script
   defer
   async
   crossorigin="anonymous"
-  integrity="sha256-w&#43;aS42D2&#43;B&#43;Jix&#43;joZ7pAua1vbu/pRK/IhoP55b8n3w="
-  src="/js/script-lazy.min.c3e692e360f6f81f898b1fa3a19ee902e6b5bdbbbfa512bf221a0fe796fc9f7c.js"></script>
+  integrity=""
+  src="/js/script-lazy.js"></script>
 
 
 

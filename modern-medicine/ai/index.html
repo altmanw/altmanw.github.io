@@ -4,7 +4,7 @@
   class=""
   lang="en-us"
   itemtype="http://schema.org/WebPage">
-  <head>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     
     <meta charset="utf-8" />
 
@@ -72,7 +72,6 @@
 
 
 
-  <base href="https://willaltman.tech/modern-medicine/ai/" />
 
 
 
@@ -154,7 +153,7 @@
 <meta property="og:title" content="MM AI" />
 <meta property="og:description" content="MM AI" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://willaltman.tech/modern-medicine/ai/" />
+<meta property="og:url" content="http://localhost:1313/modern-medicine/ai/" />
 
 
 <meta name="twitter:title" content="MM AI" />
@@ -185,7 +184,7 @@
 
 
 <script>
-  let indexURL = "https://willaltman.tech/searchindex.json";
+  let indexURL = "http://localhost:1313/searchindex.json";
   let includeSectionsInSearch = ["blog"];
   let search_no_results = "No results for";
   let search_initial_message = "Type something to search..";
@@ -295,8 +294,8 @@
 
 
 <link
-  href="/css/style.min.deb1109dbad644e37eab5cd348cedfc91b12e870793cea9a036f32d57ccaf152.css"
-  integrity="sha256-3rEQnbrWRON+q1zTSM7fyRsS6HB5POqaA28y1XzK8VI="
+  href="/css/style.css"
+  integrity=""
   rel="stylesheet" />
 
 
@@ -304,8 +303,8 @@
   defer
   async
   rel="stylesheet"
-  href="/css/style-lazy.min.1891ab9d1988b9b19756de1bbea47aecb95c7b5ab195f6fe52244b6eca5d8154.css"
-  integrity="sha256-GJGrnRmIubGXVt4bvqR67Llce1qxlfb+UiRLbspdgVQ="
+  href="/css/style-lazy.css"
+  integrity=""
   media="print"
   onload="this.media='all'; this.onload=null;" />
 
@@ -319,7 +318,18 @@
 
 
 
+
+
       
+      <div
+  class="fixed left-0 top-0 z-50 flex w-[30px] items-center justify-center bg-gray-200 py-[2.5px] text-[12px] uppercase text-black sm:bg-red-200 md:bg-yellow-200 lg:bg-green-200 xl:bg-blue-200 2xl:bg-pink-200">
+  <span class="block sm:hidden">all</span>
+  <span class="hidden sm:block md:hidden">sm</span>
+  <span class="hidden md:block lg:hidden">md</span>
+  <span class="hidden lg:block xl:hidden">lg</span>
+  <span class="hidden xl:block 2xl:hidden">xl</span>
+  <span class="hidden 2xl:block">2xl</span>
+</div>
 
     
 
@@ -474,20 +484,6 @@
               
               href="/"
               >Home</a
-            >
-          </li>
-        
-      
-        
-        
-        
-        
-          <li class="nav-item">
-            <a
-              class="nav-link "
-              
-              href="/about"
-              >About</a
             >
           </li>
         
@@ -718,16 +714,161 @@
         <div class="lg:col-10">
           <div class="content">
             <h3 id="ai">AI</h3>
-<p>There are many unique AI agents in MODERN MEDICINE. The below section is a summary of what they are and what they do. The section after that describes core systems and gives implementation examples.</p>
+<p>Modern Medicine features a variety of unique AI agents, each with distinct behaviors and gameplay roles. The overview below highlights what each monster does.</p>
+<h4 id="systems">SYSTEMS</h4>
+<p>All AI agents in Modern Medicine share a set of core systems, enabling modular, reusable, and scalable behavior across the game’s diverse monster roster.</p>
+<ul>
+<li>
+<p>Navigation: Monsters navigating procedurally generated hallways use a shared A* pathfinding module, while agents confined to rooms leverage a simplified node-based navigation system. Node paths are dynamically stitched at runtime to accommodate procedural layouts.</p>
+</li>
+<li>
+<p>Animation: All 3D monsters utilize a centralized animation module that synchronizes animations between the client and server, ensuring smooth, responsive movement in multiplayer scenarios.</p>
+</li>
+<li>
+<p>Behavior Trees: For complex behaviors, monsters rely on behavior trees, implemented with BTreesV5. This allows each agent to maintain unique AI patterns while reusing core systems, supporting both straightforward and intricate behaviors.</p>
+</li>
+<li>
+<p>Region System &amp; Dynamic Spawning: AI decision-making and agent spawning are tightly integrated with a region system that tracks player location at multiple levels of granularity. The system stores metadata for each node, room, and hallway biome, broadcasting events whenever a player moves between nodes, rooms, or biomes. AI can react to specific changes, such as a player entering or exiting a room, moving to a new biome, or traversing the halls node by node, while also being able to poll the system for real-time location data. This allows:</p>
+<ul>
+<li>
+<p>Adaptive AI behavior (e.g., enabling or disabling agents based on player position)</p>
+</li>
+<li>
+<p>Context-sensitive effects (e.g., “get out” warnings for Hunters)</p>
+</li>
+<li>
+<p>Optimized performance by limiting unnecessary AI updates in inactive regions</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>These shared systems provide a flexible and performant foundation, supporting dynamic procedural layouts, event-driven AI, and immersive multiplayer gameplay. Together, they allow the monsters of Modern Medicine to remain challenging, responsive, and engaging while maintaining a modular, maintainable architecture.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+  
+  
+
+
+  
+  
+    
+    
+      
+    
+
+    
+
+
+    
+    
+
+
+    
+    
+    
+    
+    
+    
+    
+
+
+    
+    
+      
+      
+
+      
+        
+        
+      
+
+
+      
+
+      
+      
+        
+        
+        
+      
+      
+      
+      
+
+    
+    
+
+    
+    
+      <figure
+        class="img-center"
+        role="group"
+        aria-describedby="caption-The hunter&rsquo;s behavior tree.">
+      
+        <a
+          href="/images/mm/pics/hunter-btree-1.png"
+          class="glightbox" data-glightbox="description: .caption-The-hunters-behavior-tree">
+      
+          <img
+            title="image title"
+            loading="lazy"
+            decoding="async"
+            class="img img-fluid"
+            width="812"
+            height="600"
+            src="/images/mm/pics/hunter-btree-1_hu4648819717763840133.png"
+            alt="A graph representing a behavior tree."
+            onerror="this.onerror='null';this.src='\/images\/mm\/pics\/hunter-btree-1_hu4648819717763840133.png'" />
+      
+        </a>
+      
+        <figcaption id="caption-The hunter&rsquo;s behavior tree." class="caption-The-hunters-behavior-tree">
+          The hunter&rsquo;s behavior tree.
+        </figcaption>
+      </figure>
+    
+
+  
+  
+
+
+
+
+
+
+
 <h4 id="monsters">MONSTERS</h4>
 <h6 id="larry">LARRY</h6>
-<p>Larry is the flagship monster - an experiment on the hospital&rsquo;s janitor gone wrong. He intercepts players in the halls every time the lobby completes a major milestone of the quest line, and if a player gets too close they are dealt an extreme amount of damage. To add to the challenge, each additional time he spawns he is given increased speed. He utilizes the player region module to locate his target and the A* module combined with the level node graph to pathfind to his target.</p>
-<p>Larry&rsquo;s design consists of several key points:</p>
+<p>Larry is the flagship monster and the face of Modern Medicine. He appears after players complete the puzzle at each cycle, relentlessly chasing them back to the ICU, the game’s central hub. With each subsequent appearance, Larry increases in speed, making encounters progressively more intense. A single hit from Larry instantly defeats the player, heightening the stakes of every chase.</p>
+<p>Larry’s behavior is powered by the player region system and A* pathfinding combined with the level node graph, allowing him to efficiently locate and pursue his target through the procedurally generated hallways.</p>
+<p>Key gameplay and design elements include:</p>
 <ul>
-<li>Each step Larry takes sends the booming sound of his weight reverberating through the hallways. This is the first warning sign to the player that he is near.</li>
-<li>The closer Larry is to the player, the more his footsteps shake the player&rsquo;s screen.</li>
-<li>Larry emits a terrifying noise which gets louder as he nears a player.</li>
-<li>With each footstep, Larry spawns a ring of fire around his body, adding to the spectacle while also denoting his attack range to the player.</li>
+<li><strong>Auditory cues:</strong> Larry’s heavy footsteps reverberate through the hallways, giving players their first warning.</li>
+<li><strong>Screen shake:</strong> The closer Larry gets, the more his footsteps shake the player’s view, adding tension and immersion.</li>
+<li><strong>Visual cues:</strong> Each step generates a ring of fire around Larry, signaling his attack radius while amplifying the spectacle.</li>
+<li><strong>Terrifying presence</strong>: Larry emits an escalating sound as he nears the player, reinforcing the chase experience.</li>
 </ul>
 
 
@@ -826,15 +967,10 @@
 
 
 
-  <script>
-    window.addEventListener("load", (e) => {
-      const lightbox = GLightbox();
-    });
-  </script>
-
 
 <h6 id="johnny">JOHNNY</h6>
-<p>Johnny is a radiation monster spawned from additional inhumane experiments conducted in the hospital. He resides in the medicine floor, randomly navigating from one end of the hallways to another. When the player is close, Johnny emits a geiger counter noise as well as immense screen shake. As he flys through the halls he opens doors to the patient rooms on either side of him, making the experience of players hiding in these rooms that much more immersive.</p>
+<p>Johnny is a radiation-based monster spawned from the hospital’s additional inhumane experiments. He inhabits the medicine wing, which consists of a series of patient rooms connected by hallways, creating a stealth-focused gameplay segment. Players must hide in rooms as Johnny navigates the hallways, collecting items and avoiding detection to progress.</p>
+<p>Johnny’s movement is procedurally randomized: at the start of each cycle, he selects a hallway endpoint and travels to another end, sometimes along the same hallway. As he passes, doors to nearby patient rooms swing open, enhancing tension and immersion while reinforcing player stealth mechanics. Johnny also emits a Geiger counter noise and intense screen shake when players are nearby, signaling his presence and heightening suspense.</p>
 
 
 
@@ -933,7 +1069,7 @@
 
 
 
-<p>Because the layout of the medicine floor is generated using prefabricated assets and he does not chase players, there is no need to use A* pathing for his navigation. Instead, a series of nodes are placed in each sub-layout that define a path from an out-of-bounds part of the hallway to the main, unchanging &ldquo;L&rdquo; hallway. For each monster cycle, a random out of bounds start point is chosen, the monster follows that point&rsquo;s path to the main hallway, then it randomly chooses another path to an out of bounds region.</p>
+<p>Because Johnny does not actively chase players, A* pathfinding is unnecessary. Instead, navigational nodes are placed at each hallway endpoint, defining paths from out-of-bounds start points to the main hallway. Each hallway branch is procedurally generated, and the node paths are stitched together at runtime, allowing Johnny to navigate dynamically through a constantly changing environment while maintaining controlled, predictable movement.</p>
 
 
 
@@ -1051,7 +1187,7 @@
 
 
 <h6 id="dr-thompson">DR. THOMPSON</h6>
-<p>Dr. Thompson is the main villain of the hospital. The player only encounters his projected forms in the Operating Room, where he is seen standing frozen over the player&rsquo;s character immobilized on an operating table. If the player looks at him for too long, his head will suddenly animate and stare at the player. As soon as line of sight is broken between the player and Dr. T., the player is transported onto the operating table for a POV experience of the doctor operating on them.</p>
+<p>Dr. Thompson is the hospital’s main antagonist, encountered only in the Operating Room. Players see his projected form looming over their immobilized avatar on the operating table, creating an intense POV experience that players consistently enjoy. If the player looks at him for too long, his head suddenly animates to stare directly at them, heightening tension. Dr. Thompson only attacks after this trigger has occurred and line of sight is broken, delivering a dramatic and precise gameplay moment.</p>
 
 
 
@@ -1150,15 +1286,16 @@
 
 
 
-<p>For best responsiveness, Dr. Thompson&rsquo;s vision system is client sided. There are 3 checks that must pass for a player to be attacked by the monster:</p>
+<p>For responsiveness and immersion, Dr. Thompson’s vision system is client-sided. Three conditions must be satisfied for him to engage the player:</p>
 <ol>
-<li>The player must be within the proper distance</li>
-<li>The monster must exist within the player&rsquo;s viewport</li>
-<li>A raycast from the monster&rsquo;s head must hit the player. Note: collision groups are used to allow for raycasts through transparent objects in this scenario.</li>
+<li>The player is within the proper distance.</li>
+<li>Dr. Thompson is visible within the player’s viewport.</li>
+<li>A raycast from the monster’s head hits the player, with collision groups configured to allow raycasts through transparent objects.</li>
 </ol>
-<p>If every check passes, then the player is looking at Dr. Thompson. After a short but random amount of time, Dr. Thompson will activate, staring down the player. Once line of sight is broken, he attacks.</p>
+<p>Once all checks pass, Dr. Thompson begins the activation sequence. After a brief but randomized delay, he stares down the player, and the moment the line of sight is broken, the attack is executed, creating a high-tension, cinematic gameplay experience.</p>
 <h6 id="roaches">ROACHES</h6>
-<p>Roaches wander the hallways. When hungry, roaches will fly onto the player&rsquo;s face and will attack until they are swatted away.</p>
+<p>Roaches are minor yet dynamic AI agents that wander the hospital hallways. When hungry, they will fly onto the player’s face and attack until swatted away, creating tense and unpredictable moments.</p>
+<p>Their movement is driven by node-based A* pathfinding, enhanced with additional navigational points within each node to introduce variation and make their paths less predictable. Once a player is detected, roaches fly directly onto the player’s moving avatar using a custom linear interpolation system, allowing precise interception of dynamic targets—a behavior not achievable with Roblox’s TweenService alone.</p>
 
 
 
@@ -1258,8 +1395,10 @@
 
 
 <h6 id="wandering-faces">WANDERING FACES</h6>
-<p>Wandering Faces are monsters that slowly float along the hallways. Whether they try to navigate to a player or wander randomly is left to chance. When the player looks at a wandering face, they start to get a tunnel vision effect. If the stare for too long, the wandering face will draw the player into it, dealing damage.</p>
-<p>To make the hallways feel dense and to save on resources, there are only ever a small number of wandering faces in the world at any given time. Once a face is far enough away from all players, it respawns in a location closer to the action.</p>
+<p>Wandering Faces are minor AI agents that drift slowly along the hospital hallways, designed to bring the environment to life and subtly increase tension. Whether they move randomly or attempt to navigate toward the player is determined procedurally, adding unpredictability to hallway traversal.</p>
+<p>When a player stares at a Wandering Face, a tunnel vision effect begins to take hold. Prolonged staring causes the monster to draw the player in, dealing damage. While individually minor, their presence can make movement through the hallways more challenging, particularly in later stages when other monsters populate the same space. In these scenarios, Wandering Faces act as natural “obstacles,” forcing players to balance attention and movement to avoid both environmental hazards and more dangerous enemies.</p>
+<p>To optimize performance, only a small number of Wandering Faces exist in the world at any time. Once a face moves far from all players, it respawns closer to the action, ensuring hallways remain populated and the environment feels dynamic without overloading resources.</p>
+<p>This design also synergizes with the Unseen Ones late in the game: players must look away from Wandering Faces to avoid their effect, while simultaneously needing to look toward Unseen Ones to avoid them, creating tense, layered encounters in the final stages.</p>
 
 
 
@@ -1359,8 +1498,10 @@
 
 
 <h6 id="hunter">HUNTER</h6>
-<p>The hunter is a monster that was added to solve a critical issue we came across while playtesting: players in random lobbies don&rsquo;t stick together. We developed the core quest system under the assumption that as soon as one player finds the room they need to go to, all the players would be able to easily and quickly join them. This held true for private playtests with friends and family, but as soon as we tested with random people who didn&rsquo;t know each we quickly discovered this would not always be the case. Thus the hunter was created to deal with stragglers and keep the game progressing smoothly.</p>
-<p>Hunters spawning in is signified by every direction panel illuminating simultaneously. Each player is hunted by a unique hunter which is only visible to them (but still controlled by the server). The hunter will follow and observe the player at a distance. After the player has remained in its line of sight for long enough, its body will turn neon orange - signifying that it is preparing to attack. When it does attack, it deals a moderate amount of damage and teleports the player to the destination room for the current quest. The player can delay the hunter&rsquo;s attack by breaking line of sight or hopping into various rooms along the way. If they player stays in a room for too long, however, a warning effect will play and after some time the hunter will still attack.</p>
+<p>The Hunter is a reactive AI designed to maintain pacing and tension in multiplayer lobbies. During playtesting, we discovered that in random lobbies, players often lagged behind, preventing the group from progressing efficiently through the core quest. The Hunter addresses this by encouraging players to keep moving toward objectives while adding intensity to chase sequences.</p>
+<p>Each player is assigned a unique Hunter, visible only to them but fully controlled by the server. Hunters begin in a passive state, observing the player at a distance. Their approach is signaled by all direction panels illuminating simultaneously, alerting players to the incoming threat.</p>
+<p>Hunters utilize the game’s region system to track player locations. When a player hides in a room, the Hunter triggers a “get out” GUI effect, warning the player and encouraging movement. If the player remains too long, the Hunter attacks within the room, dealing moderate damage and teleporting the player to the quest’s destination. Once the player returns to the hallways, the GUI effect automatically disables, maintaining clear feedback without disrupting gameplay.</p>
+<p>Players can temporarily delay the Hunter’s attack by breaking line of sight or moving between rooms, but lingering too long triggers the warning and forces progression. By combining player-specific tracking, line-of-sight detection, teleportation mechanics, and region-based triggers, Hunters both enforce pacing and enhance tension, preventing stalling while intensifying chase encounters.</p>
 
 
 
@@ -1674,8 +1815,9 @@
 
 
 <h6 id="unseen-ones-angels">UNSEEN ONES (ANGELS)</h6>
-<p>Unseen Ones are the final monster encountered in the game and my personal favorite. They are heavily inspired by the Weeping Angels from Dr. Who. During the game&rsquo;s finale, the hallways completely regenerate and feature only one biome: the experimentation wing. This is where the unseen ones are found. These monsters silently stalk the player and move incredibly quickly when out of sight. However, when the player has any of the monsters within their line of sight, they feeze mid animation and appear as a statue.</p>
-<p>On their own they are not that challenging to get past if you are aware of them, but the true difficulty comes closer to the end of the game. As the player progresses through the experimentation challenges, more and more monsters spawn in the hallways, including the Wandering Faces. This creates a unique synergy because the Wandering Faces will attack if you look at them for too long, and the Unseen Ones will attack if you look away. So when the hallways have both, it creates a stressful and fun challenge.</p>
+<p>The Unseen Ones are the final and scariest monsters in Modern Medicine, heavily inspired by the Weeping Angels from Doctor Who. Found exclusively in the experimentation wing during the game’s finale, these silent stalkers move incredibly quickly when out of the player’s line of sight, creating intense, nerve-wracking encounters.</p>
+<p>When a player turns to look at them, the Unseen Ones continue animating briefly before freezing mid-motion, heightening tension and delivering powerful moments. Their design makes them both terrifying and strategically engaging, as players must carefully manage what they see while navigating the regenerated hallways.</p>
+<p>The true challenge emerges when the hallways are populated with multiple monsters near the end of the game. In particular, the Unseen Ones synergize with Wandering Faces: looking away from the Unseen Ones keeps them moving, while staring at Wandering Faces triggers their attacks. This combination forces players to balance attention and movement, creating some of the most stressful and memorable moments in the game.</p>
 
 
 
@@ -1774,144 +1916,16 @@
 
 
 
-<p>Unseen Ones&rsquo; movement logic works by checking two primary things:</p>
+<p>Unseen Ones’ movement logic is handled server-side for consistency and player synchronization, and relies on two checks:</p>
 <ol>
-<li>Is there a valid raycast between the player and the monster</li>
-<li>Is the player looking at the monster</li>
+<li>Raycasting – ensures there are no obstacles between the player and the monster (other agents are ignored).</li>
+<li>Player gaze detection – calculates the angle between the player’s look vector and the vector to the monster’s head using a dot product:</li>
 </ol>
-<p>To simplify communication, these movement checks are performed on the server. Checking the raycast simply checks if there are any objects between the player and the monster. Other agents do not count as valid objects for this raycast and are filtered out. Checking if the player is looking at the monster takes the vector between the agent and the player, then performs the dot product to get the angle between that vector and the player&rsquo;s look vector</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span><span style="color:#66d9ef">local</span> dVec <span style="color:#f92672">=</span> agentHead.Position <span style="color:#f92672">-</span> viewerHead.Position
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">--Positive means the angle between the two vectors is less than abs(90). 0 is a right angle, negative is not visible</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">local</span> inFov <span style="color:#f92672">=</span> dVec:Dot(viewerHead.CFrame.LookVector) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> 
-</span></span></code></pre></div><h4 id="systems">SYSTEMS</h4>
-<p>AI agents all share several core systems. Monsters that navigate the hallways reuse the A* module found in other parts of the code. Other monsters that spawn inside rooms utilize a more simplistic node based navigation system. All 3D monsters utilize the same animation module, which allows both the client and the server to control an agent&rsquo;s animations.</p>
-<p>For more complicated agents, behavior trees are necessary to map out their logic. I utilize the <a href="https://devforum.roblox.com/t/btreesv5-rojo-support-fixes/1781449"
-
-
-
-
- target="_blank"
- 
-
-
->BTreesV5</a> plugin to streamline my implementation.</p>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-  
-  
-  
-
-
-  
-  
-    
-    
-      
-    
-
-    
-
-
-    
-    
-
-
-    
-    
-    
-    
-    
-    
-    
-
-
-    
-    
-      
-      
-
-      
-        
-        
-      
-
-
-      
-
-      
-      
-        
-        
-        
-      
-      
-      
-      
-
-    
-    
-
-    
-    
-      <figure
-        class="img-center"
-        role="group"
-        aria-describedby="caption-The hunter&rsquo;s behavior tree.">
-      
-        <a
-          href="/images/mm/pics/hunter-btree-1.png"
-          class="glightbox" data-glightbox="description: .caption-The-hunters-behavior-tree">
-      
-          <img
-            title="image title"
-            loading="lazy"
-            decoding="async"
-            class="img img-fluid"
-            width="812"
-            height="600"
-            src="/images/mm/pics/hunter-btree-1_hu4648819717763840133.png"
-            alt="A graph representing a behavior tree."
-            onerror="this.onerror='null';this.src='\/images\/mm\/pics\/hunter-btree-1_hu4648819717763840133.png'" />
-      
-        </a>
-      
-        <figcaption id="caption-The hunter&rsquo;s behavior tree." class="caption-The-hunters-behavior-tree">
-          The hunter&rsquo;s behavior tree.
-        </figcaption>
-      </figure>
-    
-
-  
-  
-
-
-
-
-
-
-
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- Positive means the player is looking at the monster; 0 is a right angle; negative means not visible</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">local</span> inFov <span style="color:#f92672">=</span> dVec:Dot(viewerHead.CFrame.LookVector) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>
+</span></span></code></pre></div><p>These mechanics allow Unseen Ones to move silently, freeze when observed, and strike unpredictably, making them the ultimate hallway threat and the centerpiece of the game’s finale.</p>
 
 
 
@@ -1959,7 +1973,7 @@
 
 
 
-<a href="https://willaltman.tech/modern-medicine#AI" class="btn btn-primary "  rel="" >Back</a>
+<a href="http://localhost:1313/modern-medicine#AI" class="btn btn-primary "  rel="" >Back</a>
 
 
           </div>
@@ -2083,26 +2097,6 @@
       <div class="lg:col-6 mb-8 text-center lg:mb-0">
         <ul>
           
-            <li class="m-3 inline-block">
-              <a
-                
-                href="
-                  /about
-                "
-                >About</a
-              >
-            </li>
-          
-            <li class="m-3 inline-block">
-              <a
-                
-                href="
-                  /resume.pdf
-                "
-                >Résumé</a
-              >
-            </li>
-          
         </ul>
       </div>
       <div class="lg:col-3 mb-8 text-center lg:mb-0 lg:mt-0 lg:text-right">
@@ -2211,23 +2205,20 @@
 
 
 
-  
-  
-
 
 
 <script
   crossorigin="anonymous"
-  integrity="sha256-LO9JECYLqyMcpGlrtxZcpUn0I8AvhO6oIIibJZv4zbk="
-  src="/js/script.min.2cef4910260bab231ca4696bb7165ca549f423c02f84eea820889b259bf8cdb9.js"></script>
+  integrity=""
+  src="/js/script.js"></script>
 
 
 <script
   defer
   async
   crossorigin="anonymous"
-  integrity="sha256-w&#43;aS42D2&#43;B&#43;Jix&#43;joZ7pAua1vbu/pRK/IhoP55b8n3w="
-  src="/js/script-lazy.min.c3e692e360f6f81f898b1fa3a19ee902e6b5bdbbbfa512bf221a0fe796fc9f7c.js"></script>
+  integrity=""
+  src="/js/script-lazy.js"></script>
 
 
 
